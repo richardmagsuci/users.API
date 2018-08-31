@@ -6,6 +6,7 @@ module.exports = function(app, db) {
 		//const fname = JSON.parse(req.body.id);
 		db.collection('user_login').findOne(req.params, (err, item) => {
 			if (err) {
+				res.type('text/plain');
 				res.send({ 'error': 'An error has occured' });
 				res.end();
 			} else {
