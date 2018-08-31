@@ -7,8 +7,9 @@ module.exports = function(app, db) {
 		db.collection('user_login').findOne(req.params, (err, item) => {
 			if (err) {
 				res.send({ 'error': 'An error has occured' });
+				res.end();
 			} else {
-				res.send(item);
+				res.send(item).end();
 			}
 		});
 	});
