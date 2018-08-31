@@ -2,7 +2,7 @@ var ObjectID = require('mongodb').ObjectID
 
 module.exports = function(app, db) {
 
-	app.get('/users/:firstname', (req, res) => {
+	app.get('/users/:firstname?', (req, res) => {
 		//const fname = JSON.parse(req.body.id);
 		db.collection('user_login').findOne(req.params, (err, item) => {
 			if (err) {
