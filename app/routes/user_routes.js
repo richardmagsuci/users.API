@@ -41,11 +41,11 @@ module.exports = function(app, db) {
 		});
 	});
 
-	app.get('/session/:username?', (req, res) => {
+	app.get('/session/:username?/:ip_address?', (req, res) => {
 		res.header("Access-Control-Allow-Origin", "*");
 		res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
 		res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-		db.collection('sessions').findOne({ip_address:req.connection.remoteAddress ,username:req.params.username,status:"Active"}, (err, item) => {
+		db.collection('sessions').findOne({ip_address:req.params.ip_address ,username:req.params.username,status:"Active"}, (err, item) => {
 			if (err) {
 				res.type('application/json');
 				res.send({ 'error': 'An error has occured' });
@@ -58,38 +58,37 @@ module.exports = function(app, db) {
 				}
 				else 
 				{
-					res.send(item._id);
+					res.send(item);
 				};
 			}
 		});
 	});
 
-	app.get('/activesession', (req, res) => {
+	app.get('/activesession/:ip_address?', (req, res) => {
 		res.header("Access-Control-Allow-Origin", "*");
 		res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
 		res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-		db.collection('sessions').findOne({ip_address:req.connection.remote,status:"Active"}, (err, item) => {
+		db.collection('sessions').findOne({ip_address:req.params.ip_address,status:"Active"}, (err, item) => {
 			if (err) {
 				res.type('application/json');
 				res.send({ 'error': 'An error has occured' });
 				res.end();
 			} else {
-
 				if (item == null) 
 				{
 					res.status(400).send({flag:"N"});
 				}
 				else 
 				{
-					res.send(item._id);
+					res.send(item);
 				};
 			}
 		});
 	});
 
-	app.post('/session/:username?', (req, res) => {
+	app.post('/session/:username?/:ip_address?', (req, res) => {
 		const dtnow = new Date().getTime();
-		const log = { ip_address: req.connection.remoteAddress,
+		const log = { ip_address: req.params.ip_address,
 						username:req.params.username,
 						status: "Active",
 						timestamp: dtnow};
