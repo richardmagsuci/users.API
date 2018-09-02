@@ -100,20 +100,7 @@ module.exports = function(app, db) {
 			if (err) {
 				res.send({ 'error': 'An error has occured' });
 			} else {
-				console.log(result.ops[0]);
 				res.send(result.ops[0]);
-			}
-		});
-	});
-
-	app.delete('/notes/:id', (req, res) => {
-		const id = req.params.id;
-		const details = {'_id': new ObjectID(id) };
-		db.collection('notes').remove(details, (err, item) => {
-			if (err) {
-				res.send({ 'error': 'An error has occured' });
-			} else {
-				res.send('Note ' + id + ' deleted!');
 			}
 		});
 	});
@@ -132,11 +119,41 @@ module.exports = function(app, db) {
 		});
 	});
 
+	app.delete('/users/:id', (req, res) => {
+		const id = req.params.id;
+		const details = {'_id': new ObjectID(id) };
+		db.collection('sessions').remove(details, (err, item) => {
+			if (err) {
+				res.send({ 'error': 'An error has occured' });
+			} else {
+				res.send('Note ' + id + ' deleted!');
+			}
+		});
+	});
+
+	app.post('/remove_session/:ip_address?', (req, res) => {
+		res.header("Access-Control-Allow-Origin", "*");
+		res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
+		res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+		db.collection('sessions').remove(req.params, (err, item) => {
+			if (err) {
+				res.send({ 'error': 'An error has occured' });
+			} else {
+				res.send('S');
+			}
+		});
+	});
+
 	app.post('/users_new/:firstname?/:lastname?/:username?/:password?', (req, res) => {
+		res.header("Access-Control-Allow-Origin", "*");
+		res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
+		res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
 		const user = { firstname: req.params.firstname, 
 					   lastname: req.params.lastname, 
 					   username: req.params.username,
-					   password: req.params.password};
+					   password: req.params.password,
+						user_type: "User",
+					   status: "Active"};
 		db.collection('user_login').insert(user, (err, result) => {
 			if (err) {
 				res.send({ 'error': 'An error has occured' });

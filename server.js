@@ -17,6 +17,7 @@ app.use('/', express.static('/users_update'));
 app.use('/', express.static('/test'));
 app.use('/', express.static('/session'));
 app.use('/', express.static('/activesession'));
+app.use('/', express.static('/remove_session'));
 
 MongoClient.connect(db.url, (err, database) => {
 	if (err) return console.log(err)
