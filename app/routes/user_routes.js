@@ -6,7 +6,7 @@ module.exports = function(app, db) {
 		res.header("Access-Control-Allow-Origin", "*");
 				res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
 				res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
-		db.collection("user_login").find({}).toArray(function(err, result) {
+		db.collection("users").find({}).toArray(function(err, result) {
 			if (err) {
 				res.type('application/json');
 				res.send({ 'error': 'An error has occured' });
