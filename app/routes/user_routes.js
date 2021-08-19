@@ -21,7 +21,7 @@ module.exports = function(app, db) {
 		res.header("Access-Control-Allow-Origin", "*");
 		res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
 		res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
-		db.collection('user_login').findOne(req.params, (err, item) => {
+		db.collection('users').findOne({uname:req.params.username,upass:req.params.password}, (err, item) => {
 			if (err) {
 				res.type('application/json');
 				res.send({ 'error': 'An error has occured' });
@@ -41,11 +41,11 @@ module.exports = function(app, db) {
 		});
 	});
 
-	app.get('/session/:username?/:ip_address?', (req, res) => {
+	app.get('/session/:user_name?/:ip_address?', (req, res) => {
 		res.header("Access-Control-Allow-Origin", "*");
 		res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
 		res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-		db.collection('userssession').findOne({ipaddress:req.params.ip_address ,username:req.params.username,status:"Active"}, (err, item) => {
+		db.collection('userssession').findOne({ipaddress:req.params.ip_address ,username:req.params.user_name,status:"Active"}, (err, item) => {
 			if (err) {
 				res.type('application/json');
 				res.send({ 'error': 'An error has occured' });
@@ -88,14 +88,13 @@ module.exports = function(app, db) {
 
 	app.post('/session/:username?/:ip_address?', (req, res) => {
 		const dtnow = new Date().getTime();
-		const log = { ip_address: req.params.ip_address,
+		const log = { ipaddress: req.params.ip_address,
 						username:req.params.username,
-						status: "Active",
-						timestamp: dtnow};
+						status: "Active"};
 		res.header("Access-Control-Allow-Origin", "*");
 		res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
 		res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-		db.collection('users').insert(log, (err, result) => {
+		db.collection('userssession').insert(log, (err, result) => {
 			
 			if (err) {
 				res.send({ 'error': 'An error has occured' });
