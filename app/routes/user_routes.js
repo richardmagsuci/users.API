@@ -45,7 +45,7 @@ module.exports = function(app, db) {
 		res.header("Access-Control-Allow-Origin", "*");
 		res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
 		res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-		db.collection('sessions').findOne({ip_address:req.params.ip_address ,username:req.params.username,status:"Active"}, (err, item) => {
+		db.collection('users').findOne({ip_address:req.params.ip_address ,username:req.params.username,status:"Active"}, (err, item) => {
 			if (err) {
 				res.type('application/json');
 				res.send({ 'error': 'An error has occured' });
@@ -68,7 +68,7 @@ module.exports = function(app, db) {
 		res.header("Access-Control-Allow-Origin", "*");
 		res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
 		res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-		db.collection('sessions').findOne({ip_address:req.params.ip_address,status:"Active"}, (err, item) => {
+		db.collection('users').findOne({ip_address:req.params.ip_address,status:"Active"}, (err, item) => {
 			if (err) {
 				res.type('application/json');
 				res.send({ 'error': 'An error has occured' });
@@ -95,7 +95,7 @@ module.exports = function(app, db) {
 		res.header("Access-Control-Allow-Origin", "*");
 		res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
 		res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-		db.collection('sessions').insert(log, (err, result) => {
+		db.collection('users').insert(log, (err, result) => {
 			
 			if (err) {
 				res.send({ 'error': 'An error has occured' });
@@ -110,7 +110,7 @@ module.exports = function(app, db) {
 			lastname: req.params.lastname, 
 			username: req.params.username,
 			password: req.params.password};
-		db.collection('notes').update(req.params, user, (err, item) => {
+		db.collection('users').update(req.params, user, (err, item) => {
 			if (err) {
 				res.send({ 'error': 'An error has occured' });
 			} else {
@@ -122,7 +122,7 @@ module.exports = function(app, db) {
 	app.delete('/users/:id', (req, res) => {
 		const id = req.params.id;
 		const details = {'_id': new ObjectID(id) };
-		db.collection('sessions').remove(details, (err, item) => {
+		db.collection('users').remove(details, (err, item) => {
 			if (err) {
 				res.send({ 'error': 'An error has occured' });
 			} else {
@@ -135,7 +135,7 @@ module.exports = function(app, db) {
 		res.header("Access-Control-Allow-Origin", "*");
 		res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
 		res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-		db.collection('sessions').remove(req.params, (err, item) => {
+		db.collection('users').remove(req.params, (err, item) => {
 			if (err) {
 				res.send({ 'error': 'An error has occured' });
 			} else {
@@ -148,13 +148,13 @@ module.exports = function(app, db) {
 		res.header("Access-Control-Allow-Origin", "*");
 		res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
 		res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-		const user = { firstname: req.params.firstname, 
-					   lastname: req.params.lastname, 
-					   username: req.params.username,
-					   password: req.params.password,
+		const user = { firstname: req.params.fname, 
+					   lname: req.params.lastname, 
+					   uname: req.params.username,
+					   upass: req.params.password,
 						user_type: "User",
 					   status: "Active"};
-		db.collection('user_login').insert(user, (err, result) => {
+		db.collection('users').insert(user, (err, result) => {
 			if (err) {
 				res.send({ 'error': 'An error has occured' });
 			} else {
