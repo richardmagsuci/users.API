@@ -134,7 +134,7 @@ module.exports = function(app, db) {
 		res.header("Access-Control-Allow-Origin", "*");
 		res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
 		res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-		db.collection('users').remove(req.params, (err, item) => {
+		db.collection('userssession').remove({ipaddress:req.params.ip_address}, (err, item) => {
 			if (err) {
 				res.send({ 'error': 'An error has occured' });
 			} else {
@@ -147,7 +147,7 @@ module.exports = function(app, db) {
 		res.header("Access-Control-Allow-Origin", "*");
 		res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
 		res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-		const user = { firstname: req.params.fname, 
+		const user = { fname: req.params.firstname, 
 					   lname: req.params.lastname, 
 					   uname: req.params.username,
 					   upass: req.params.password,
