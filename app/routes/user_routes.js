@@ -86,10 +86,10 @@ module.exports = function(app, db) {
 		});
 	});
 
-	app.post('/session/:username?/:ip_address?', (req, res) => {
+	app.post('/session/:user_name?/:ip_address?', (req, res) => {
 		const dtnow = new Date().getTime();
 		const log = { ipaddress: req.params.ip_address,
-						username:req.params.username,
+						username:req.params.user_name,
 						status: "Active"};
 		res.header("Access-Control-Allow-Origin", "*");
 		res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
