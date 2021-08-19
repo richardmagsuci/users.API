@@ -45,7 +45,7 @@ module.exports = function(app, db) {
 		res.header("Access-Control-Allow-Origin", "*");
 		res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
 		res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-		db.collection('users').findOne({ip_address:req.params.ip_address ,username:req.params.username,status:"Active"}, (err, item) => {
+		db.collection('userssession').findOne({ipaddress:req.params.ip_address ,username:req.params.username,status:"Active"}, (err, item) => {
 			if (err) {
 				res.type('application/json');
 				res.send({ 'error': 'An error has occured' });
@@ -68,7 +68,7 @@ module.exports = function(app, db) {
 		res.header("Access-Control-Allow-Origin", "*");
 		res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
 		res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-		db.collection('users').findOne({ip_address:req.params.ip_address,status:"Active"}, (err, item) => {
+		db.collection('userssession').findOne({ipaddress:req.params.ip_address,status:"Active"}, (err, item) => {
 			if (err) {
 				res.type('application/json');
 				res.send({ 'error': 'An error has occured' });
